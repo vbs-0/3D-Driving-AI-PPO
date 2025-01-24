@@ -141,4 +141,4 @@ You will then be prompted:<br>
 Enter "y".
 
 ### 2. That's it
-You can upload "ui/dist/" to a hosting service.
+You can upload "ui/dist/" to a hosting service. 
