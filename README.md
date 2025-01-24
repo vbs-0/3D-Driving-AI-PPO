@@ -50,7 +50,7 @@ Over the course of 4500 episodes, the model's performance was tracked and plotte
 
 ### 2. Clone the Repository
 ```bash
-git clone https://github.com/fjcollyer/3D-Driving-AI-PPO.git &&
+git clone https://github.com/fredrikcollyer/3D-Driving-AI-PPO.git &&
 cd 3D-Driving-AI-PPO
 ```
 
