@@ -8,7 +8,6 @@ const port = process.env.PORT || 8080;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'ui/dist')));
 
 // Configuration variables
 const config = {
@@ -31,6 +30,12 @@ const config = {
 
 // Store agent data
 const agentData = {};
+
+// Serve static files from ui/dist
+app.use(express.static(path.join(__dirname, 'ui', 'dist')));
+
+// Serve static files from ui/static
+app.use(express.static(path.join(__dirname, 'ui', 'static')));
 
 // Serve config
 app.get('/common-with-flask-config.json', (req, res) => {
@@ -83,6 +88,11 @@ app.get('/check_unpause', (req, res) => {
   }
 
   res.json({ unpause: false });
+});
+
+// Catch-all route to serve index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'ui', 'dist', 'index.html'));
 });
 
 // Start UI development server
