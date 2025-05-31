@@ -1,247 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <title>3D Driving AI</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="3D web app that combines Proximal Policy Optimization with Three.js, enabling users to directly interact with or train AI models on a virtual racetrack.">
-
+    <meta name="description" content="3D web app that combines Proximal Policy Optimization with Three.js, enabling users to directly interact with or train AI models on a virtual racetrack.">
+    
     <!-- Remix Icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
-
+    
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-
-    <!-- Open Graph / Facebook -->
+    
+    <!-- Meta Tags -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://3d-driving-ai.vercel.app/">
     <meta property="og:title" content="3D Driving AI">
-    <meta property="og:description"
-        content="3D web app that combines Proximal Policy Optimization with Three.js, enabling users to directly interact with or train AI models on a virtual racetrack.">
+    <meta property="og:description" content="3D web app that combines Proximal Policy Optimization with Three.js, enabling users to directly interact with or train AI models on a virtual racetrack.">
     <meta property="og:image" content="https://3d-driving-ai.vercel.app/preview.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="600">
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://3d-driving-ai.vercel.app/">
-    <meta name="twitter:title" content="3D Driving AI">
-    <meta name="twitter:description"
-        content="3D web app that combines Proximal Policy Optimization with Three.js, enabling users to directly interact with or train AI models on a virtual racetrack.">
-    <meta name="twitter:image" content="https://3d-driving-ai.vercel.app/preview.png">
-
-    <!-- Icon Configuration -->
+    
+    <!-- Icons -->
     <link rel="icon" href="/cybertruck.svg">
     <link rel="apple-touch-icon" href="/cybertruck-white-bg.png">
-    <link rel="mask-icon" href="/cybertruck.svg" color="#000000">
-    <meta name="theme-color" content="#ffffff">
-
-    <!-- Vercel Analytics -->
+    
+    <!-- Analytics -->
     <script>
         window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
 </head>
-
 <body>
     <canvas class="canvas js-canvas"></canvas>
 
-    <!--=============== HEADER ===============-->
-    <header class="header" hidden>
-        <nav class="nav container">
-
-            <!--=============== POP UP ON MODE CHANGE ===============-->
-            <div class="popup-container" id="popup-container">
-                <p class="nav__link" id="popup-text">You will lose your current progress</p>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <div class="nav__logo">
+                <img src="/cybertruck.svg" alt="Logo" class="logo-img">
             </div>
-
-            <div class="nav-right-div">
-                <img src="/cybertruck.svg" alt="Cybertruck" class="my-logo" />
-            </div>
-
-            <!--=============== NAV MENU ===============-->
-            <div class="nav__menu" id="nav-menu">
-                <ul class="nav__list">
-                    <!--=============== DROPDOWN 1 ===============-->
-                    <li class="dropdown__item" id="mode-dropdown-item">
-                        <div class="nav__link dropdown__button" id="mode_nav_link">
-                            Mode:&nbsp;<p id="mode-in-nav"></p>
-                            <i class="ri-arrow-down-s-line dropdown__arrow"></i>
-                        </div>
-
-                        <div class="dropdown__container hidden">
-                            <div class="dropdown__content">
-                                <div class="human-mode-container">
-                                    <h1 class="mode-title">
-                                        Human Mode
-                                    </h1>
-                                    <div class="mode-image-container">
-                                        <img class="mode-image" src="/human-mode.svg" alt="Human Mode" />
+            
+            <div class="nav__menu">
+                <div class="nav__item dropdown">
+                    <button class="nav__link" id="mode-button">
+                        Mode: <span id="current-mode">AI Advanced</span>
+                        <i class="ri-arrow-down-s-line"></i>
+                    </button>
+                    
+                    <div class="dropdown__container" id="mode-dropdown">
+                        <div class="mode-cards">
+                            <!-- Human Mode -->
+                            <div class="mode-card" data-mode="human">
+                                <img src="/human-mode.svg" alt="Human" class="mode-card__icon">
+                                <h3 class="mode-card__title">Human Mode</h3>
+                                <p class="mode-card__description">Take control yourself</p>
+                                <div class="mode-card__controls">
+                                    <div class="control-key">
+                                        <span class="key-icon">←→</span>
+                                        <span>Steering</span>
                                     </div>
-                                    <div class="mode-options-container">
-                                        <div class="mode-option">
-                                            <div class="mode-option-inner">
-                                                <h1 class="mode-option-title">
-                                                    You are the driver
-                                                </h1>
-                                                <div class="human-mode-controls">
-                                                    <div class="arrow-keys">
-                                                        <p class="key-name">Steering</p>
-                                                        <img src="/keyb/1.svg" alt="Arrow Keys" />
-                                                    </div>
-                                                    <div class="space-bar">
-                                                        <p class="key-name">Brake</p>
-                                                        <img src="/keyb/3.svg" alt="Space Bar" />
-                                                    </div>
-                                                    <div class="shift-key">
-                                                        <p class="key-name">Boost</p>
-                                                        <img src="/keyb/2.svg" alt="Shift Key" />
-                                                    </div>
-                                                </div>
-                                                <button class="button simple" id="human-button">Select</button>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ai-mode-container">
-                                    <h1 class="mode-title">
-                                        AI Mode
-                                    </h1>
-                                    <div class="mode-image-container">
-                                        <img class="mode-image" src="/ai-mode.svg" alt="AI Mode" />
-                                    </div>
-                                    <div class="mode-options-container">
-                                        <div class="mode-option">
-                                            <div class="mode-option-inner">
-                                                <h1 class="mode-option-title">
-                                                    Beginner
-                                                </h1>
-                                                <p class="ai-mode-description">
-                                                    Number of training laps:
-                                                    <br>
-                                                    <!-- <b>501</b> -->
-                                                    <b>500</b>
-                                                </p>
-                                                <p class="ai-mode-description">
-                                                    Avarage track completion:
-                                                    <br>
-                                                    <b>5%</b>
-                                                </p>
-                                                <button class="button simple" id="ai-button-1">Select</button>
-                                            </div>
-                                        </div>
-                                        <div class="mode-option">
-                                            <div class="mode-option-inner">
-                                                <h1 class="mode-option-title">
-                                                    Intermediate
-                                                </h1>
-                                                <p class="ai-mode-description">
-                                                    Number of training laps:
-                                                    <br>
-                                                    <!-- <b>921</b> -->
-                                                    <b>900</b>
-                                                </p>
-                                                <p class="ai-mode-description">
-                                                    Avarage track completion:
-                                                    <br>
-                                                    <b>35%</b>
-                                                </p>
-                                                <button class="button simple" id="ai-button-2">Select</button>
-                                            </div>
-                                        </div>
-                                        <div class="mode-option">
-                                            <div class="mode-option-inner">
-                                                <h1 class="mode-option-title">
-                                                    Advanced
-                                                </h1>
-                                                <p class="ai-mode-description">
-                                                    Number of training laps:
-                                                    <br>
-                                                    <!-- <b>4521</b> -->
-                                                    <b>4500</b>
-                                                </p>
-                                                <p class="ai-mode-description">
-                                                    Avarage track completion:
-                                                    <br>
-                                                    <b>99%</b>
-                                                </p>
-                                                <button class="button simple" id="ai-button-3">Select</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-
-                    <!--=============== DROPDOWN 2 ===============-->
-                    <li class="dropdown__item" id="info-dropdown-item">
-                        <div class="nav__link dropdown__button" id="info_nav_link">
-                            Project Info<i class="ri-arrow-down-s-line dropdown__arrow"></i>
-                        </div>
-
-                        <div class="dropdown__container hidden">
-                            <div class="dropdown__content">
-                                <div class="info-container">
-                                    <div class="info-left">
-                                        <div class="project-info-container">
-                                            <div class="info-title">
-                                                <h1 class="info-title-text">Project Overview</h1>
-                                            </div>
-                                            <p>
-                                                This 3D web app, built using Three.js, showcases a car navigated by AI
-                                                models trained with Proximal Policy Optimization techniques. The models
-                                                are deployed directly in the browser through TensorFlow.js, facilitating
-                                                real-time interactions and allowing for immediate inference responses.
-                                                <br><br>
-                                                A plot displaying the model's performance over 4500 training episodes
-                                                provides a visual representation of the training's efficacy. For
-                                                comprehensive details on the training process and more, visit the <a
-                                                    href="https://github.com/fredrikcollyer/3D-Driving-AI-PPO"
-                                                    target="_blank">GitHub README</a>.
-                                            </p>
-                                        </div>
-                                        <div class="created-by-container">
-                                            <p class="created-by-text">Created by</p>
-                                            <h1 class="my-name-text">Fredrik Collyer</h1>
-                                            <div class="social-links">
-                                                <!-- <a href="https://www.instagram.com/fredrikcollyer/" target="_blank"><i class="fab fa-instagram"></i></a> -->
-                                                <a href="https://twitter.com/fjcollyer" target="_blank"><i
-                                                        class="fab fa-twitter"></i></a>
-                                                <a href="https://github.com/fredrikcollyer" target="_blank"><i
-                                                        class="fab fa-github"></i></a>
-                                                <a href="https://www.linkedin.com/in/fredrikcollyer/" target="_blank"><i
-                                                        class="fab fa-linkedin-in"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="info-right">
-                                        <img src="/plot_model_perf.png" alt="Model Performance Progression">
+                                    <div class="control-key">
+                                        <span class="key-icon">Space</span>
+                                        <span>Brake</span>
                                     </div>
                                 </div>
                             </div>
 
-                    </li>
-                    <li class="timer-progress-container-li">
-                        <div class="timer-progress-container">
-                            <div class="nav__link" id="progress">Progress: 0%</div>
-                            <div class="nav__link" id="lap-timer">Lap Time: 00:00</div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+                            <!-- AI Modes -->
+                            <div class="mode-card" data-mode="ai-beginner">
+                                <img src="/ai-mode.svg" alt="AI" class="mode-card__icon">
+                                <h3 class="mode-card__title">AI Beginner</h3>
+                                <p class="mode-card__description">500 training laps<br>5% completion rate</p>
+                            </div>
 
-            <div class="nav-last-div">
-                <div class="muteButtonContainer">
-                    <img src="/unmute.svg" alt="Mute/Unmute" id="muteIcon">
+                            <div class="mode-card" data-mode="ai-intermediate">
+                                <img src="/ai-mode.svg" alt="AI" class="mode-card__icon">
+                                <h3 class="mode-card__title">AI Intermediate</h3>
+                                <p class="mode-card__description">900 training laps<br>35% completion rate</p>
+                            </div>
+
+                            <div class="mode-card" data-mode="ai-advanced">
+                                <img src="/ai-mode.svg" alt="AI" class="mode-card__icon">
+                                <h3 class="mode-card__title">AI Advanced</h3>
+                                <p class="mode-card__description">4500 training laps<br>99% completion rate</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="nav__item dropdown">
+                    <button class="nav__link" id="info-button">
+                        Project Info
+                        <i class="ri-arrow-down-s-line"></i>
+                    </button>
+                    
+                    <div class="dropdown__container" id="info-dropdown">
+                        <div class="info-content">
+                            <div class="info-text">
+                                <h2>Project Overview</h2>
+                                <p>This 3D web app showcases AI models trained using Proximal Policy Optimization, deployed directly in the browser through TensorFlow.js for real-time inference.</p>
+                                <div class="performance-chart">
+                                    <img src="/plot_model_perf.png" alt="Model Performance">
+                                </div>
+                                <div class="creator-info">
+                                    <p>Created by</p>
+                                    <h3>Fredrik Collyer</h3>
+                                    <div class="social-links">
+                                        <a href="https://twitter.com/fjcollyer" target="_blank"><i class="fab fa-twitter"></i></a>
+                                        <a href="https://github.com/fredrikcollyer" target="_blank"><i class="fab fa-github"></i></a>
+                                        <a href="https://www.linkedin.com/in/fredrikcollyer/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav__controls">
+                <button class="mute-button" id="mute-button">
+                    <img src="/unmute.svg" alt="Mute" id="mute-icon">
+                </button>
             </div>
         </nav>
     </header>
 
-</body>
+    <!-- Progress Display -->
+    <div class="progress-container">
+        <div id="progress">Progress: 0%</div>
+        <div class="progress-bar">
+            <div class="progress-bar__fill" style="width: 0%"></div>
+        </div>
+        <div id="lap-timer">00:00</div>
+    </div>
 
+    <!-- Controls Display -->
+    <div class="controls-display" id="controls-display">
+        <div class="control-key">
+            <span class="key-icon">←→</span>
+            <span>Steering</span>
+        </div>
+        <div class="control-key">
+            <span class="key-icon">Space</span>
+            <span>Brake</span>
+        </div>
+        <div class="control-key">
+            <span class="key-icon">Shift</span>
+            <span>Boost</span>
+        </div>
+    </div>
+</body>
 </html>

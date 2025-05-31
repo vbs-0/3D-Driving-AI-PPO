@@ -8,86 +8,25 @@ const fjcConfig = {
   deathPositionZ: 14,
   gravityZ: -3,
   pointsForLine: {
-    0: {
-      x: 0,
-      y: 0,
-      z: 36
-    },
-    1: {
-      x: -46,
-      y: 0,
-      z: 36
-    },
-    3: {
-      x: -52,
-      y: 33,
-      z: 36
-    },
-    4: {
-      x: -82,
-      y: 33,
-      z: 36
-    },
-    5: {
-      x: -82,
-      y: -66,
-      z: 36
-    },
-    6: {
-      x: -33,
-      y: -66,
-      z: 36
-    },
-    7: {
-      x: -31,
-      y: -33,
-      z: 36
-    },
-    8: {
-      x: -31,
-      y: -23,
-      z: 42
-    },
-    9: {
-      x: -31,
-      y: 22,
-      z: 42
-    },
-    10: {
-      x: -31,
-      y: 33,
-      z: 36
-    },
-    11: {
-      x: -31,
-      y: 80,
-      z: 36
-    },
-    12: {
-      x: -10,
-      y: 81,
-      z: 36
-    },
-    13: {
-      x: -8,
-      y: 50,
-      z: 36
-    },
-    14: {
-      x: 22,
-      y: 48,
-      z: 36
-    },
-    15: {
-      x: 22,
-      y: 0,
-      z: 36
-    },
-    16: {
-      x: 0,
-      y: 1,
-      z: 36
-    },
+    // Modern F1-style track layout with more technical sections
+    0: { x: 0, y: 0, z: 36 },
+    1: { x: -40, y: 0, z: 36 }, // First straight
+    2: { x: -60, y: 20, z: 36 }, // Smooth curve into
+    3: { x: -60, y: 40, z: 36 }, // Technical section start
+    4: { x: -40, y: 50, z: 36 },
+    5: { x: -20, y: 40, z: 36 }, // Chicane
+    6: { x: -20, y: 60, z: 36 },
+    7: { x: -40, y: 70, z: 36 }, // Hairpin
+    8: { x: -60, y: 60, z: 36 },
+    9: { x: -80, y: 40, z: 36 }, // Long curve
+    10: { x: -80, y: 0, z: 36 },
+    11: { x: -60, y: -20, z: 36 }, // Back straight entry
+    12: { x: -40, y: -20, z: 36 }, // Back straight
+    13: { x: -20, y: -20, z: 36 },
+    14: { x: 0, y: -20, z: 36 },
+    15: { x: 20, y: -10, z: 36 }, // Final corner
+    16: { x: 20, y: 0, z: 36 },
+    17: { x: 0, y: 0, z: 36 } // Finish line
   },
 }
 
