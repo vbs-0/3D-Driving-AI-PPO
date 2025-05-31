@@ -32,9 +32,7 @@ def update_config(training_mode):
 
 
 def start_ui_app():
-    os.chdir('ui')
-    web_app_process = subprocess.Popen(['npm', 'run', 'dev'])
-    os.chdir('..')
+    web_app_process = subprocess.Popen(['npm', 'run', 'dev'], cwd='ui', shell=True)
     return web_app_process
 
 
@@ -43,9 +41,7 @@ def create_production_build():
     update_config(False)
 
     # Proceed with creating the production build
-    os.chdir('ui')
-    subprocess.run(['npm', 'run', 'build'], check=True)
-    os.chdir('..')
+    subprocess.run(['npm', 'run', 'build'], cwd='ui', shell=True, check=True)
 
 
 def plot_statistics():

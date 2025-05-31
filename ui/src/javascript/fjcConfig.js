@@ -31,3 +31,5 @@ const fjcConfig = {
 }
 
 module.exports = fjcConfig;
+
+export default fjcConfig
